@@ -15,6 +15,7 @@ In the original paper [1], the technique was applied to a top-down single-person
 Therefore, during the cropping phase, we extract the bodyparts and their local keypoints, which are then added to the samples and ground truth, randomly, during training.
 
 The main goal of this approach is to enhance the model's robustness to occlusion, even when one animal occludes another. 
+
 ![](gif.gif)
 
 ## Experimental Setup
