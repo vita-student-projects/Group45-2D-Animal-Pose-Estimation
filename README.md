@@ -104,7 +104,7 @@ The statistics are:
 ## Model Checkpoints 
 The different model checkpoints and statistics can be found in this google drive
 
-[https://drive.google.com/drive/folders/1b5Vhk8N5ZT8sN4ZXlk3D1lu7IP6pWe_i?usp=sharing](Animal Pose Estimation)
+![https://drive.google.com/drive/folders/1b5Vhk8N5ZT8sN4ZXlk3D1lu7IP6pWe_i?usp=sharing](Animal Pose Estimation)
 
 
 ## Authors
