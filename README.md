@@ -1,7 +1,10 @@
 # CIVIL-459 OpenPifPaf SDA plugin
 
 ## Contribution Overview
-This repository implements the Semantic Data Augmentation (SDA) technique for Animal 2D Pose Estimation. The SDA plugin is based on the "Adversarial Semantic Data Augmentation for Human Pose Estimation" paper [1].
+This repository implements the Semantic Data Augmentation (SDA) technique for Animal 2D Pose Estimation. The SDA plugin is based on the _"Adversarial Semantic Data Augmentation for Human Pose Estimation"_ paper [1]. Check the [Video](https://youtu.be/aUT1Tqia494) for more explanations.
+
+<img src="intro.gif" width="1000"/>
+
 
 The SDA Plugin works by iterating over the dataset and applying cropping to different body parts using keypoint data. Each body part is masked and extracted individually, although the quality of the cropped body parts may not be perfect. Random rotation and scaling are also applied to the individual body parts. The positioning of the body parts is currently random, but in the future, Adversarial Positioning will be implemented. Adversarial Positioning aims to add leg parts next to the ground truth legs to confuse the model and improve its generalization capabilities. 
 
@@ -12,7 +15,7 @@ In the original paper [1], the technique was applied to a top-down single-person
 Therefore, during the cropping phase, we extract the bodyparts and their local keypoints, which are then added to the samples and ground truth, randomly, during training.
 
 The main goal of this approach is to enhance the model's robustness to occlusion, even when one animal occludes another. 
-
+![](gif.gif)
 
 ## Experimental Setup
 
@@ -82,6 +85,25 @@ Some Results are better than others...
 
 ![image](https://github.com/jsilveira1409/CIVIL-459-Animal-Pose-Estimation/assets/57415447/e9c402dc-78f5-4217-b8cd-ec179854b470)
 
+## Statistics and Metrics
+
+The SDA plugin had three different versions. All of the models had a learning rate warm up starting from the shufflenetv2k30 weights at epoch 200 :
+- **No SDA**: Normal training without augmentation. 
+- **SDAv1**: _Aggressive_ augmentation. No check for Image/bodypart size ratio, 3 bodyparts added per sample, no ground truth change, so the bodyparts added were purely visual, they do not modify the ground truth of the samples. Hard on the model, performance was not great at all.
+- **SDAv2**: Lighter augmentation. Image/bodypart size ratio check to avoid too much occlusion that would not make sense in the real life deployement, 3 bodyparts added per sample,. No ground truth modification either, not ideal for bottom-up PAF model's such as OpenPifPaf.
+- **SDAv3**: Lighter augmentation. Image/bodypart size ratio check, 3 bodyparts per sample added. Ground truth **is modified** to include the keypoints of the cropped bodyparts to it, relative to the sample's origin axis. 
+
+The statistics are:
+
+![image](https://github.com/jsilveira1409/CIVIL-459-Animal-Pose-Estimation/assets/57415447/863cebaa-4b12-4b9b-b401-b66522a7cb33)
+
+- AP: Average Precision
+- AR: Average Recall
+
+## Model Checkpoints 
+The different model checkpoints and statistics can be found in this google drive
+
+[https://drive.google.com/drive/folders/1b5Vhk8N5ZT8sN4ZXlk3D1lu7IP6pWe_i?usp=sharing](Animal Pose Estimation)
 
 
 ## Authors
@@ -91,6 +113,5 @@ Some Results are better than others...
 ## References
 
 [1] Yanrui Bin, Xuan Cao, Xinya Chen, Yanhao Ge, Ying Tai, Chengjie Wang, Jilin Li, Feiyue Huang, Changxin Gao, and Nong Sang. (2020). Adversarial Semantic Data Augmentation for Human Pose Estimation. arXiv preprint arXiv:2008.00697. [Link to Paper](https://arxiv.org/abs/2008.00697)
-
 
 
